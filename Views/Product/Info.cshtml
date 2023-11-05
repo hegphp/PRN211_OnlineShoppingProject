@@ -3,6 +3,8 @@
 *@
 @{
 }
+@using Project.Models;
+@model Product;
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,47 +72,30 @@
             </ul>
         </nav>
     </div>
-    <div class="container" style="margin: 35px">
-        <br>
-    </div>
+
     <div class="container">
+        <h1 class="h1 text-center">Thông tin sản phẩm</h1>
+        <br>
         <div class="row">
-            <!--content-->
-            <div class="col-md-3"></div>
-            <form class="form-group col-md-6" action="login" method="post">
-                <h1 class="h1 text-center text-dark">Đăng nhập</h1>
-                <input type="hidden" name="login">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Tài khoản</span>
-                    </div>
-                    <input class="form-control" type="text" name="account" id="accountInput">
-                </div>
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Mật khẩu</span>
-                    </div>
-                    <input class="form-control" type="password" name="password" id="passwordInput">
-                </div>
-                <div class="input-group d-flex justify-content-between">
-                    <div class="input-group-append">
-                        <a class="" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/PRJ301FlowerShopProject/login-google&response_type=code
-                               &client_id=603686036073-m59br5hv3eimivgvuhllug3tden05v8i.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>
-                    </div>
-                    <input class="btn btn-primary" type="submit" value="Đăng nhập">
-                </div>
-            </form>
-            <br>
-            <p>${errorMessage}</p>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
+            <div class='col-md-4'>
+                <img class="h-100 w-100" src='${bouquetInfo.getBouquetImageUrl()}'>
+            </div>
+            <div class='col-md-5'>
+                <form>
+                    <h2>@ViewBag.Product.ProductName</h2>
+                    <p>Giá: @ViewBag.Product.UnitPrice</p>
+                    <p>Số lượng: <input type='number' id='quantity' max='@((Product)ViewBag.Product).'> (Số lượng tối đa: ${bouquetInfo.getBouquetQuantity()})</p>
+                    <p id="errorMessage" style="display: none; color: red;">Giá trị không hợp lệ!</p>
+                    <p>Thông tin sản phẩm:<br>${bouquetInfo.getBouquetDesc()}</p>
+                    <input class="btn btn-secondary" type='submit' value='Thêm vào giỏ hàng'>
+                    <input class="btn btn-secondary" type='submit' value='Đặt hàng'>
+                </form>
+            </div>
         </div>
     </div>
-
-    <div style="margin-top: 10px">
-        <br>
-    </div>
-
-    <footer class="py-5 bg-dark mt-3 w-100 fixed-bottom">
+    <div class="m-3"><br><br><br></div>
+    <footer class="py-5 bg-dark mt-3 w-100">
         <h5 class="text-center text-light">Copyright by Hong Viet Bui</h5>
     </footer>
 </body>

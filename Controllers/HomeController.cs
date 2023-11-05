@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Services;
+using System.Text;
 
 namespace Project.Controllers {
     public class HomeController : Controller {
@@ -7,7 +8,8 @@ namespace Project.Controllers {
         CategoryService categoryService = new CategoryService();
         public IActionResult Index() {
             ViewBag.ProductList = productService.GetProducts();
-            ViewBag.User = "Hello";
+            if(!string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
+                ViewBag.User = HttpContext.Session.GetString("user");
             ViewBag.CateList = categoryService.GetCategories();
             return View();
         }

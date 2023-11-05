@@ -18,42 +18,32 @@
 <body class=".bg-light.bg-gradient min-vh-100">
     <div class="container">
         <div class="d-flex flex-warp align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-            <a href="Homepage" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <a href="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                 <img src="Resource/hoadepcom-logos.jpeg" class="bi me-2" width="45" height="45">
             </a>
-            <form action="search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
-                <input type="text" name='bouquetName' value="${bouquetName}" class="form-control" placeholder="Tìm kiếm hoa tại đây">
+            <form action="/product/search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
+                <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm sản phẩm tại đây">
                 <button type="submit" class="input-group-append btn btn-outline-secondary">
                     Tìm kiếm
                 </button>
             </form>
             <div class="px-3 col-md-3 text-end d-flex justify-content-around">
-                <c:if test="${user==null}">
+                @if (ViewBag.User == null) {
                     <!--login-->
                     <a class="text-decoration-none text-dark" href="login">Đăng nhập</a>
                     <!--register-->
                     <a class="text-decoration-none text-dark" href="user?register=1">Đăng kí</a>
                     <!--Shopping list-->
                     <a class="text-decoration-none text-dark" href="login">Giỏ hàng</a>
-                </c:if>
-                <c:if test="${user != null}">
-                    <c:if test="${user['class'].name eq 'Model.Customer'}">
-                        <!--login-->
-                        <a class="text-decoration-none text-dark" href="user?info=1">Xin chào ${user.getCustomerId()}</a>
-                        <!--register-->
-                        <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
-                        <!--Shopping list-->
-                        <a class="text-decoration-none text-dark" href="CartController?userId=${user.getCustomerId()}">Giỏ hàng</a>
-                    </c:if>
-                    <c:if test="${user['class'].name eq 'Model.Employee'}">
-                        <!--login-->
-                        <a class="text-decoration-none text-dark" href="user?info=1">Xin chào ${user.getEmpId()}</a>
-                        <!--register-->
-                        <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
-                        <!--Shopping list-->
-                        <a class="text-decoration-none text-dark" href="CartController?userId=${user.getEmpId()}">Giỏ hàng</a>
-                    </c:if>
-                </c:if>
+                }
+                else {
+                    <!--login-->
+                    <a class="text-decoration-none text-dark" href="user?info=1">Xin chào @((string)ViewBag.User)</a>
+                    <!--register-->
+                    <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
+                    <!--Shopping list-->
+                    <a class="text-decoration-none text-dark" href="CartController?userId=${user.getCustomerId()}">Giỏ hàng</a>
+                }
             </div>
         </div>
 
@@ -69,7 +59,7 @@
                 </li>
 
                 <li class="nav-item col-md-3 text-center">
-                    <a class="nav-link" href="./Homepage">Trang chủ</a>
+                    <a class="nav-link" href="/home">Trang chủ</a>
                 </li>
                 <li class="nav-item col-md-3 text-center">
                     <a class="nav-link" href="">Giới thiệu</a>

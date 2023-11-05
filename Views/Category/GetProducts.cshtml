@@ -29,14 +29,15 @@
                 </button>
             </form>
             <div class="px-3 col-md-3 text-end d-flex justify-content-around">
-                @if(ViewBag.User == null) {
+                @if (ViewBag.User == null) {
                     <!--login-->
                     <a class="text-decoration-none text-dark" href="/login">Đăng nhập</a>
                     <!--register-->
                     <a class="text-decoration-none text-dark" href="/register">Đăng kí</a>
                     <!--Shopping list-->
                     <a class="text-decoration-none text-dark" href="/login">Giỏ hàng</a>
-                }else {
+                }
+                else {
                     <!--login-->
                     <a class="text-decoration-none text-dark" href="user?info=1">Xin chào @((string)ViewBag.User)</a>
                     <!--register-->
@@ -52,7 +53,7 @@
                 <li class="nav-item col-md-3 text-center dropdown">
                     <a role="button" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" id="navbarDropdown" href="#">Danh mục sản phẩm</a>
                     <div class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
-                        @foreach(var cate in (List<Category>)ViewBag.CateList) {
+                        @foreach (var cate in (List<Category>)ViewBag.CateList) {
                             <a class="dropdown-item text-center" href="/Category/GetProducts/@cate.CategoryId">@cate.CategoryName</a>
                         }
                     </div>
@@ -72,62 +73,47 @@
     </div>
 
     <div class="container">
-        <!--content-->
+        <c:set value="0" var="count"></c:set>
+        <h3 class="text-center mt-4 text-dark">@ViewBag.Category.CategoryName</h3>
+        <form class="form-inline" action="BouquetTypeController" method="post">
+            <input type="hidden" value="${id}" name="id">
+            <button type="submit" value="asc" name="order" class="btn btn-primary">Từ thấp lên cao</button>
+            <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
+        </form>
         @{
-            var count = 0;
             var productList = (List<Product>)ViewBag.ProductList;
-            var openRowDiv = "<div class='row mt-3'>";
-            var closeDiv = "</div>";
-            //access every value of the product List
-            for (var i = 0; i < productList.Count; i++) {
-                //check if the element is the first one in a line or not
+            if (productList.Count == 0) {
+                <h3 class="h3 text-center" style="height: 50vh;">Các sản phẩm ở đây chưa tồn tại, bạn vui lòng tìm kiếm sau nhé ^^</h3>
+            }
+
+            for(int i=0; i<productList.Count;i++) {
                 if (i % 4 == 0) {
-                    @Html.Raw(openRowDiv)
-                    ;
-                    <div class="col-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="https://cdn.icon-icons.com/icons2/2570/PNG/512/image_icon_153794.png" class="card-img-top" alt="...">
-                            <div class="card-body d-flex flex-column align-content-center">
-                                <h5 class="card-title text-center">@productList[i].ProductName</h5>
-                                <p class="card-text">Số lượng: @productList[i].UnitsInStock</p>
-                                <p class="card-text">Giá tiền: @productList[i].UnitPrice</p>
-                                <a href="/product/info/@productList[i].ProductId" class="btn btn-primary">Xem thông tin</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else if (i == (productList.Count - 1) || (i + 1) % 4 == 0) {
-                    <div class="col-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="https://cdn.icon-icons.com/icons2/2570/PNG/512/image_icon_153794.png" class="card-img-top" alt="...">
-                            <div class="card-body d-flex flex-column align-content-center">
-                                <h5 class="card-title text-center">@productList[i].ProductName</h5>
-                                <p class="card-text">Số lượng: @productList[i].UnitsInStock</p>
-                                <p class="card-text">Giá tiền: @productList[i].UnitPrice</p>
-                                <a href="/product/info/@productList[i].ProductId" class="btn btn-primary">Xem thông tin</a>
-                            </div>
-                        </div>
-                    </div>
-                    @Html.Raw(closeDiv)
+                    @Html.Raw("<div class='row mt-3'>")
                     ;
                 }
-                else {
-                    <div class="col-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="https://cdn.icon-icons.com/icons2/2570/PNG/512/image_icon_153794.png" class="card-img-top" alt="...">
-                            <div class="card-body d-flex flex-column align-content-center">
-                                <h5 class="card-title text-center">@productList[i].ProductName</h5>
-                                <p class="card-text">Số lượng: @productList[i].UnitsInStock</p>
-                                <p class="card-text">Giá tiền: @productList[i].UnitPrice</p>
+                <div class="col-md-3">
+                    <div class="card">
+                        <a href="BouquetController?info=1&id=${i.getBouquetId()}"><img style="height: 14em" class="card-img-top" src="${i.getBouquetImageUrl()}" alt="Card image cap"></a>
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><a class="text-decoration-none text-primary" href="BouquetController?info=1&id=${i.getBouquetId()}">@productList[i].ProductName</a></h5>
+                            <p class="card-text text-center">Giá: <span style="text-decoration: line-through">@productList[i].UnitPrice</span> @productList[i].UnitPrice</p>
+                            <div class="text-center">
                                 <a href="/product/info/@productList[i].ProductId" class="btn btn-primary">Xem thông tin</a>
                             </div>
                         </div>
                     </div>
+                </div>
+                if ((i + 1) % 4 == 0 || i == productList.Count - 1) {
+                    @Html.Raw("</div>")
+                    ;
                 }
             }
         }
 
+    <div style="margin-top: 10px">
+        <br>
     </div>
+
     <footer class="py-5 bg-dark mt-3 w-100">
         <h5 class="text-center text-light">Copyright by Hong Viet Bui</h5>
     </footer>

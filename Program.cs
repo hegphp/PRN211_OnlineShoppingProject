@@ -22,6 +22,12 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
         name: "default",
+        pattern: "/{controller}",
+        defaults: new { action = "Index"}
+    );
+
+app.MapControllerRoute(
+        name: "default",
         pattern: "/{controller}/{action}"
     );
 
@@ -29,5 +35,8 @@ app.MapControllerRoute(
         name: "default",
         pattern: "/{controller}/{action}/{var}"
     );
+
+
+app.UseSession();
 
 app.Run();

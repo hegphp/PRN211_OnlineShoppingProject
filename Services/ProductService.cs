@@ -9,6 +9,14 @@
 
         public List<Product> GetProducts() { 
             return _context.Products.ToList();
-        } 
+        }
+
+        public Product GetProductById(int id) {
+            return _context.Products.FirstOrDefault(x => x.ProductId == id);
+        }
+
+        public List<Product> searchProducts(string searchedValue) {
+            return _context.Products.Where(p => p.ProductName.Contains(searchedValue)).ToList();
+        }
     }
 }
