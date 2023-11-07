@@ -20,11 +20,11 @@
 <body class=".bg-light.bg-gradient min-vh-100">
     <div class="container">
         <div class="d-flex flex-warp align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-            <a href="Homepage" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <a href="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                 <img src="Resource/hoadepcom-logos.jpeg" class="bi me-2" width="45" height="45">
             </a>
             <form action="/product/search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
-                <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm hoa tại đây">
+                <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm sản phẩm tại đây">
                 <button type="submit" class="input-group-append btn btn-outline-secondary">
                     Tìm kiếm
                 </button>
@@ -54,14 +54,14 @@
                 <li class="nav-item col-md-3 text-center dropdown">
                     <a role="button" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" id="navbarDropdown" href="#">Danh mục sản phẩm</a>
                     <div class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
-                        <c:forEach items="${bouquetTypeList}" var="item">
-                            <a class="dropdown-item text-center" href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a>
-                        </c:forEach>
+                        @foreach (var cate in (List<Category>)ViewBag.CateList) {
+                            <a class="dropdown-item text-center" href="/Category/GetProducts/@cate.CategoryId">@cate.CategoryName</a>
+                        }
                     </div>
                 </li>
 
                 <li class="nav-item col-md-3 text-center">
-                    <a class="nav-link" href="./Homepage">Trang chủ</a>
+                    <a class="nav-link" href="/home">Trang chủ</a>
                 </li>
                 <li class="nav-item col-md-3 text-center">
                     <a class="nav-link" href="">Giới thiệu</a>
@@ -79,15 +79,14 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class='col-md-4'>
-                <img class="h-100 w-100" src='${bouquetInfo.getBouquetImageUrl()}'>
+                <img class="h-100 w-100" src='https://upload.wikimedia.org/wikipedia/commons/1/14/Product_sample_icon_picture.png'>
             </div>
             <div class='col-md-5'>
                 <form>
                     <h2>@ViewBag.Product.ProductName</h2>
                     <p>Giá: @ViewBag.Product.UnitPrice</p>
-                    <p>Số lượng: <input type='number' id='quantity' max='@((Product)ViewBag.Product).'> (Số lượng tối đa: ${bouquetInfo.getBouquetQuantity()})</p>
+                    <p>Số lượng: <input type='number' id='quantity' max='@(((Product)ViewBag.Product).UnitsInStock)'> (Số lượng tối đa: @ViewBag.Product.UnitsInStock)</p>
                     <p id="errorMessage" style="display: none; color: red;">Giá trị không hợp lệ!</p>
-                    <p>Thông tin sản phẩm:<br>${bouquetInfo.getBouquetDesc()}</p>
                     <input class="btn btn-secondary" type='submit' value='Thêm vào giỏ hàng'>
                     <input class="btn btn-secondary" type='submit' value='Đặt hàng'>
                 </form>

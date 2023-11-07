@@ -75,8 +75,7 @@
     <div class="container">
         <c:set value="0" var="count"></c:set>
         <h3 class="text-center mt-4 text-dark">@ViewBag.Category.CategoryName</h3>
-        <form class="form-inline" action="BouquetTypeController" method="post">
-            <input type="hidden" value="${id}" name="id">
+        <form class="form-inline" action="/Category/GetProducts/@ViewBag.Category.CategoryId" method="post">
             <button type="submit" value="asc" name="order" class="btn btn-primary">Từ thấp lên cao</button>
             <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
         </form>
@@ -86,7 +85,7 @@
                 <h3 class="h3 text-center" style="height: 50vh;">Các sản phẩm ở đây chưa tồn tại, bạn vui lòng tìm kiếm sau nhé ^^</h3>
             }
 
-            for(int i=0; i<productList.Count;i++) {
+            for (int i = 0; i < productList.Count; i++) {
                 if (i % 4 == 0) {
                     @Html.Raw("<div class='row mt-3'>")
                     ;
@@ -110,12 +109,12 @@
             }
         }
 
-    <div style="margin-top: 10px">
-        <br>
-    </div>
+        <div style="margin-top: 10px">
+            <br>
+        </div>
 
-    <footer class="py-5 bg-dark mt-3 w-100">
-        <h5 class="text-center text-light">Copyright by Hong Viet Bui</h5>
-    </footer>
+        <footer class="py-5 bg-dark mt-3 w-100">
+            <h5 class="text-center text-light">Copyright by Hong Viet Bui</h5>
+        </footer>
 </body>
 </html>

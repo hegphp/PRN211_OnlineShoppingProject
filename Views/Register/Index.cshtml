@@ -3,6 +3,7 @@
 *@
 @{
 }
+@using Project.Models;
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,9 +53,9 @@
                 <li class="nav-item col-md-3 text-center dropdown">
                     <a role="button" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" id="navbarDropdown" href="#">Danh mục sản phẩm</a>
                     <div class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
-                        <c:forEach items="${bouquetTypeList}" var="item">
-                            <a class="dropdown-item text-center" href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a>
-                        </c:forEach>
+                        @foreach (var cate in (List<Category>)ViewBag.CateList) {
+                            <a class="dropdown-item text-center" href="/Category/GetProducts/@cate.CategoryId">@cate.CategoryName</a>
+                        }
                     </div>
                 </li>
 

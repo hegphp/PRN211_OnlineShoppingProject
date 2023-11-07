@@ -4,7 +4,6 @@
 @{
 }
 @using Project.Models;
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,17 +15,15 @@
     }
     <script src=@FRazor integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"> </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-          rel="stylesheet" />
 </head>
-<body class=".bg-light.bg-gradient">
+<body class=".bg-light.bg-gradient min-vh-100">
     <div class="container">
         <div class="d-flex flex-warp align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-            <a href="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <a href="Homepage" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                 <img src="Resource/hoadepcom-logos.jpeg" class="bi me-2" width="45" height="45">
             </a>
             <form action="search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
-                <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm sản phẩm tại đây">
+                <input type="text" name='bouquetName' value="${bouquetName}" class="form-control" placeholder="Tìm kiếm hoa tại đây">
                 <button type="submit" class="input-group-append btn btn-outline-secondary">
                     Tìm kiếm
                 </button>
@@ -42,11 +39,11 @@
                 }
                 else {
                     <!--login-->
-                    <a class="text-decoration-none text-dark" href="user?info=1">Xin chào @((string)ViewBag.User)</a>
+                    <a class="text-decoration-none text-dark" href="/customer/info/@ViewBag.User">Xin chào @((string)ViewBag.User)</a>
                     <!--register-->
-                    <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
+                    <a class="text-decoration-none text-dark" href="/customer/logout">Thoát</a>
                     <!--Shopping list-->
-                    <a class="text-decoration-none text-dark" href="CartController?userId=${user.getCustomerId()}">Giỏ hàng</a>
+                    <a class="text-decoration-none text-dark" href="/cart/info">Giỏ hàng</a>
                 }
             </div>
         </div>
@@ -56,14 +53,14 @@
                 <li class="nav-item col-md-3 text-center dropdown">
                     <a role="button" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" id="navbarDropdown" href="#">Danh mục sản phẩm</a>
                     <div class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
-                        @foreach (var cate in (List<Category>)ViewBag.CateList) {
-                            <a class="dropdown-item text-center" href="/Category/GetProducts/@cate.CategoryId">@cate.CategoryName</a>
-                        }
+                        <c:forEach items="${bouquetTypeList}" var="item">
+                            <a class="dropdown-item text-center" href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a>
+                        </c:forEach>
                     </div>
                 </li>
 
                 <li class="nav-item col-md-3 text-center">
-                    <a class="nav-link" href="/home">Trang chủ</a>
+                    <a class="nav-link" href="./Homepage">Trang chủ</a>
                 </li>
                 <li class="nav-item col-md-3 text-center">
                     <a class="nav-link" href="">Giới thiệu</a>
@@ -75,52 +72,30 @@
         </nav>
     </div>
 
-    <div class="container">
-        <c:set value="0" var="count"></c:set>
-        <h3 class="text-center mt-4 text-dark">Kết quả tìm kiếm</h3>
+    <div class="container mt-4">
+        <h1 class="h1 text-center mb-2 text-primary">Thông tin người dùng</h1>
+        <br>
         <div class="row">
-            <form class="form-inline d-flex justify-content-center" action="search" method="post">
-                <input type="hidden" name="bouquetName" value="${bouquetName}">
-                <button type="submit" value="asc" name="order" class="btn btn-primary mx-3">Từ thấp lên cao</button>
-                <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
-            </form>
+            <div class="col-md-3"></div>
+            <div class="container col-md-6">
+                @{
+                    Customer customer = ViewBag.UserInfo;
+                }
+                <h3>Tài khoản: @customer.CustomerId</h3>
+                <h3>Số điện thoại: @customer.Phone</h3>
+                <h3>Địa chỉ: @customer.Address @customer.City</h3>
+                <h3>Contact name: @customer.ContactName</h3>
+                <h3>Company name: @customer.CompanyName</h3>
+                <h3>Contact title: @customer.ContactTitle</h3>
+            </div>
         </div>
-        @{
-            var productList = (List<Product>)ViewBag.ProductList;
-            if (productList.Count == 0) {
-                <h3 class="h3 text-center" style="height: 50vh;">Các sản phẩm ở đây chưa tồn tại, bạn vui lòng tìm kiếm sau nhé ^^</h3>
-            }
-
-            for (int i = 0; i < productList.Count; i++) {
-                if (i % 4 == 0) {
-                    @Html.Raw("<div class='row mt-3'>")
-                    ;
-                }
-                <div class="col-md-3">
-                    <div class="card">
-                        <a href="BouquetController?info=1&id=${i.getBouquetId()}"><img style="height: 14em" class="card-img-top" src="${i.getBouquetImageUrl()}" alt="Card image cap"></a>
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><a class="text-decoration-none text-primary" href="BouquetController?info=1&id=${i.getBouquetId()}">@productList[i].ProductName</a></h5>
-                            <p class="card-text text-center">Giá: <span style="text-decoration: line-through">@productList[i].UnitPrice</span> @productList[i].UnitPrice</p>
-                            <div class="text-center">
-                                <a href="/product/info/@productList[i].ProductId" class="btn btn-primary">Xem thông tin</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                if ((i + 1) % 4 == 0 || i == productList.Count - 1) {
-                    @Html.Raw("</div>")
-                    ;
-                }
-            }
-        }
     </div>
 
     <div style="margin-top: 10px">
         <br>
     </div>
 
-    <footer class="py-5 bg-dark mt-3 w-100">
+    <footer class="py-5 bg-dark mt-3 w-100 fixed-bottom">
         <h5 class="text-center text-light">Copyright by Hong Viet Bui</h5>
     </footer>
 </body>

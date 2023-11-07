@@ -152,3 +152,4 @@ C:\Users\Lenovo\Documents\GitHub\PRN211-OnlineShoppingProject\PRN211_OnlineShopp
 C:\Users\Lenovo\Documents\GitHub\PRN211-OnlineShoppingProject\PRN211_OnlineShoppingProject\obj\Debug\net6.0\Project.pdb
 C:\Users\Lenovo\Documents\GitHub\PRN211-OnlineShoppingProject\PRN211_OnlineShoppingProject\obj\Debug\net6.0\Project.genruntimeconfig.cache
 C:\Users\Lenovo\Documents\GitHub\PRN211-OnlineShoppingProject\PRN211_OnlineShoppingProject\obj\Debug\net6.0\ref\Project.dll
+C:\Users\Lenovo\Documents\GitHub\PRN211-OnlineShoppingProject\PRN211_OnlineShoppingProject\bin\Debug\net6.0\Newtonsoft.Json.dll

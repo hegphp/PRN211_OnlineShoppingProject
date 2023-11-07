@@ -38,11 +38,11 @@
                     <a class="text-decoration-none text-dark" href="/login">Giỏ hàng</a>
                 }else {
                     <!--login-->
-                    <a class="text-decoration-none text-dark" href="user?info=1">Xin chào @((string)ViewBag.User)</a>
+                    <a class="text-decoration-none text-dark" href="/customer/info/@ViewBag.User">Xin chào @((string)ViewBag.User)</a>
                     <!--register-->
-                    <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
+                    <a class="text-decoration-none text-dark" href="/customer/logout">Thoát</a>
                     <!--Shopping list-->
-                    <a class="text-decoration-none text-dark" href="CartController?userId=${user.getCustomerId()}">Giỏ hàng</a>
+                    <a class="text-decoration-none text-dark" href="/cart/info">Giỏ hàng</a>
                 }
             </div>
         </div>

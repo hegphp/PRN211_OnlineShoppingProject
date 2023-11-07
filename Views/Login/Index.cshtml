@@ -3,6 +3,7 @@
 *@
 @{
 }
+@using Project.Models;
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +19,11 @@
 <body class=".bg-light.bg-gradient min-vh-100">
     <div class="container">
         <div class="d-flex flex-warp align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-            <a href="Homepage" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <a href="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                 <img src="Resource/hoadepcom-logos.jpeg" class="bi me-2" width="45" height="45">
             </a>
             <form action="/product/search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
-                <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm hoa tại đây">
+                <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm sản phẩm tại đây">
                 <button type="submit" class="input-group-append btn btn-outline-secondary">
                     Tìm kiếm
                 </button>
@@ -52,14 +53,14 @@
                 <li class="nav-item col-md-3 text-center dropdown">
                     <a role="button" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" id="navbarDropdown" href="#">Danh mục sản phẩm</a>
                     <div class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
-                        <c:forEach items="${bouquetTypeList}" var="item">
-                            <a class="dropdown-item text-center" href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a>
-                        </c:forEach>
+                        @foreach (var cate in (List<Category>)ViewBag.CateList) {
+                            <a class="dropdown-item text-center" href="/Category/GetProducts/@cate.CategoryId">@cate.CategoryName</a>
+                        }
                     </div>
                 </li>
 
                 <li class="nav-item col-md-3 text-center">
-                    <a class="nav-link" href="./Homepage">Trang chủ</a>
+                    <a class="nav-link" href="/home">Trang chủ</a>
                 </li>
                 <li class="nav-item col-md-3 text-center">
                     <a class="nav-link" href="">Giới thiệu</a>
@@ -77,6 +78,7 @@
         <div class="row">
             <!--content-->
             <div class="col-md-3"></div>
+            @model Project.Pages.LoginDTO;
             <form class="form-group col-md-6" action="login" method="post">
                 <h1 class="h1 text-center text-dark">Đăng nhập</h1>
                 <input type="hidden" name="login">
@@ -84,24 +86,20 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Tài khoản</span>
                     </div>
-                    <input class="form-control" type="text" name="account" id="accountInput">
+                    <input class="form-control" type="text" name="Account" id="accountInput">
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Mật khẩu</span>
                     </div>
-                    <input class="form-control" type="password" name="password" id="passwordInput">
+                    <input class="form-control" type="password" name="Password" id="passwordInput">
                 </div>
-                <div class="input-group d-flex justify-content-between">
-                    <div class="input-group-append">
-                        <a class="" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/PRJ301FlowerShopProject/login-google&response_type=code
-                               &client_id=603686036073-m59br5hv3eimivgvuhllug3tden05v8i.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>
-                    </div>
+                <div class="input-group d-flex justify-content-end">
                     <input class="btn btn-primary" type="submit" value="Đăng nhập">
                 </div>
             </form>
             <br>
-            <p>${errorMessage}</p>
+            <div asp-validation-summary="All" class="text-danger"></div> <!-- Hiển thị tất cả lỗi -->
             <div class="col-md-3"></div>
         </div>
     </div>
