@@ -36,6 +36,12 @@ app.MapControllerRoute(
         pattern: "/{controller}/{action}/{var}"
     );
 
+app.MapControllerRoute(
+        name: "Logout",
+        pattern: "/logout",
+        defaults: new {controller = "Login", action = "Logout" }
+    );
+
 
 app.UseSession();
 

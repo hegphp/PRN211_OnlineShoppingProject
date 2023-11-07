@@ -15,5 +15,11 @@ namespace Project.Services {
         public Customer GetCustomer(string username) {
             return _context.Customers.FirstOrDefault(c => c.CustomerId == username);
         }
+
+        //Add new customer
+        public void AddCustomer(Customer customer) { 
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+        }
     }
 }

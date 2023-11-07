@@ -42,11 +42,11 @@
                 }
                 else {
                     <!--login-->
-                    <a class="text-decoration-none text-dark" href="user?info=1">Xin chào @((string)ViewBag.User)</a>
+                    <a class="text-decoration-none text-dark" href="/customer/info/@ViewBag.User">Xin chào @((string)ViewBag.User)</a>
                     <!--register-->
-                    <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
+                    <a class="text-decoration-none text-dark" href="/logout">Thoát</a>
                     <!--Shopping list-->
-                    <a class="text-decoration-none text-dark" href="CartController?userId=${user.getCustomerId()}">Giỏ hàng</a>
+                    <a class="text-decoration-none text-dark" href="/cart/info">Giỏ hàng</a>
                 }
             </div>
         </div>
@@ -79,8 +79,7 @@
         <c:set value="0" var="count"></c:set>
         <h3 class="text-center mt-4 text-dark">Kết quả tìm kiếm</h3>
         <div class="row">
-            <form class="form-inline d-flex justify-content-center" action="search" method="post">
-                <input type="hidden" name="bouquetName" value="${bouquetName}">
+            <form class="form-inline d-flex justify-content-center" action="search?productName=@ViewBag.ProductSearched" method="post">
                 <button type="submit" value="asc" name="order" class="btn btn-primary mx-3">Từ thấp lên cao</button>
                 <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
             </form>

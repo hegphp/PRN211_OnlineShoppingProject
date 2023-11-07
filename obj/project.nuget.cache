@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "cbAzy26E6mrs4wekS4Y1qnls3onkInxoQ2vbAUSks0gzjI1WkSPA1m9BT2NwHvF1YR6LytwqTAIoUT2gtz999A==",
+  "dgSpecHash": "GXgbWE4us589cUb6W0GWW1qxPsYxgnkDlxhIITHYS6ybnvll9RWoFFcQQbzpLmwcZKmszwR6wjrTgs0WgR/FWg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lenovo\\Documents\\GitHub\\PRN211-OnlineShoppingProject\\PRN211_OnlineShoppingProject\\Project.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Lenovo\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.24\\microsoft.entityframeworkcore.6.0.24.nupkg.sha512",

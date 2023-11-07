@@ -4,6 +4,9 @@
 @{
 }
 @using Project.Models;
+@using Project.DTO;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model RegisterDTO;
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,19 +34,19 @@
             <div class="px-3 col-md-3 text-end d-flex justify-content-around">
                 @if (ViewBag.User == null) {
                     <!--login-->
-                    <a class="text-decoration-none text-dark" href="login">Đăng nhập</a>
+                    <a class="text-decoration-none text-dark" href="/login">Đăng nhập</a>
                     <!--register-->
-                    <a class="text-decoration-none text-dark" href="user?register=1">Đăng kí</a>
+                    <a class="text-decoration-none text-dark" href="/register">Đăng kí</a>
                     <!--Shopping list-->
-                    <a class="text-decoration-none text-dark" href="login">Giỏ hàng</a>
+                    <a class="text-decoration-none text-dark" href="/login">Giỏ hàng</a>
                 }
                 else {
                     <!--login-->
-                    <a class="text-decoration-none text-dark" href="user?info=1">Xin chào @((string)ViewBag.User)</a>
+                    <a class="text-decoration-none text-dark" href="/customer/info/@ViewBag.User">Xin chào @((string)ViewBag.User)</a>
                     <!--register-->
-                    <a class="text-decoration-none text-dark" href="user?logout=1">Thoát</a>
+                    <a class="text-decoration-none text-dark" href="/logout">Thoát</a>
                     <!--Shopping list-->
-                    <a class="text-decoration-none text-dark" href="CartController?userId=${user.getCustomerId()}">Giỏ hàng</a>
+                    <a class="text-decoration-none text-dark" href="/cart/info">Giỏ hàng</a>
                 }
             </div>
         </div>
@@ -75,73 +78,63 @@
         <div class="row">
             <!--content-->
             <div class="col-md-3"></div>
-            <form class="col-md-6 form-group" action="user" method="post">
+            <form class="col-md-6 form-group" action="/register" method="post">
                 <h1 class="h1 text-center">Đăng kí</h1>
                 <input type="hidden" name="register">
                 <div class="input-group mb-2">
                     <div class="input-group-append">
                         <span class="input-group-text">Tài khoản</span>
                     </div>
-                    <input class="form-control" type="text" name="accountInput" id="accountInput" value="${account}">
-                </div>
-                <div class="input-group mb-2">
-                    <div class="input-group-append">
-                        <span class="input-group-text">Mật khẩu</span>
-                    </div>
-                    <input class="form-control" type="password" name="passwordInput" id="passwordInput">
-                </div>
-                <div class="input-group mb-2">
-                    <div class="input-group-append">
-                        <span class="input-group-text">Nhập lại mật khẩu</span>
-                    </div>
-                    <input class="form-control" type="password" id="repassword" name="repassword" style="width:60%">
-                </div>
-                <div class="input-group mb-2">
-                    <div class="input-group-append">
-                        <span class="input-group-text">First Name:</span>
-                    </div>
-                    <input class="form-control" type="text" name="firstNameInput" value="${firstName}">
-                </div>
-                <div class="input-group mb-2">
-                    <div class="input-group-append">
-                        <span class="input-group-text">Last Name:</span>
-                    </div>
-                    <input class="form-control" type="text" name="lastNameInput" value="${lastName}">
-                </div>
-                <div class="d-flex justify-content-around mb-2">
-                    <div class="form-check form-check-inline" style="margin: 0">
-                        <input type='radio' id='gender1' name='genderInput' value='1'>
-                        <label class="form-check-label" for="gender1">Nam</label>
-                    </div>
-                    <div class="form-check form-check-inline" style="margin: 0">
-                        <input type='radio' id='gender2' name='genderInput' value='0'>
-                        <label class="form-check-label" for="gender2">Nữ</label>
-                    </div>
+                    <input class="form-control" type="text" id="accountInput" asp-for="Account">
+                    <span asp-validation-for="Account" class="text-danger"></span>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-append">
                         <span class="input-group-text">Số điện thoại</span>
                     </div>
-                    <input class="form-control" type="text" id="phoneInput" name="phoneInput" oninput="validatePhoneInput()">
+                    <input class="form-control" type="password" id="passwordInput" asp-for="Phone">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <span class="input-group-text">Nhập lại số điện thoại</span>
+                    </div>
+                    <input class="form-control" type="password" id="repasswordInput" style="width:60%" asp-for="Rephone">
+                    <span asp-validation-for="Rephone" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <span class="input-group-text">Contact Name:</span>
+                    </div>
+                    <input class="form-control" type="text" asp-for="ContactName">
+                    <span asp-validation-for="ContactName" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <span class="input-group-text">Company Name:</span>
+                    </div>
+                    <input class="form-control" type="text" asp-for="CompanyName">
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-append">
                         <span class="input-group-text">Địa chỉ</span>
                     </div>
-                    <input class="form-control" type="text" name="addressInput">
+                    <input class="form-control" type="text" asp-for="Address">
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-append">
-                        <span class="input-group-text">Email</span>
+                        <span class="input-group-text">Thành phố</span>
                     </div>
-                    <input class="form-control" type="email" name="emailInput" value="${email}">
+                    <input class="form-control" type="text" asp-for="City">
+                    <span asp-validation-for="City" class="text-danger"></span>
                 </div>
                 <div class="input-group mb-2 d-flex justify-content-end">
                     <input class="btn btn-primary" type="submit" value="Đăng kí">
                 </div>
             </form>
             <br>
-            <p>${errorMessage}</p>
             <div class="col-md-3"></div>
         </div>
     </div>

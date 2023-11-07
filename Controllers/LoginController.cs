@@ -34,5 +34,10 @@ namespace Project.Controllers {
 
             return Redirect("/login");
         }
+
+        public IActionResult Logout() {
+            HttpContext.Session.Clear();
+            return Redirect("/home");
+        }
     }
 }

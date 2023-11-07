@@ -18,11 +18,31 @@ namespace Project.Controllers {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Search(string productName) {
+            ViewBag.ProductSearched = productName;
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
                 ViewBag.User = HttpContext.Session.GetString("user");
             ViewBag.CateList = categoryService.GetCategories();
             ViewBag.ProductList = productService.searchProducts(productName);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Search(string productName, string order) {
+            ViewBag.ProductSearched = productName;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
+                ViewBag.User = HttpContext.Session.GetString("user");
+            ViewBag.CateList = categoryService.GetCategories();
+
+            var productList = productService.searchProducts(productName);
+
+            if (order == "desc") {
+                productList = productList.OrderByDescending(p => p.UnitPrice).ToList();
+            }
+
+
+            ViewBag.ProductList = productList;
             return View();
         }
     }
