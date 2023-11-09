@@ -14,6 +14,7 @@ namespace Project.Controllers {
             ViewBag.User = HttpContext.Session.GetString("user");
             ViewBag.CateList = categoryService.GetCategories();
             List<CartDTO> cartList;
+            //Check if the cartList is null or not
             if (HttpContext.Session.GetString("cartList") != null) {
                 cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
                 ViewBag.CartList = cartList;
@@ -25,6 +26,7 @@ namespace Project.Controllers {
         public IActionResult Info(int id) {
             ViewBag.CateList = categoryService.GetCategories();
             List<CartDTO> cartList;
+            //Check if the cartList is null or not
             if (HttpContext.Session.GetString("cartList") != null) {
                 cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
                 ViewBag.CartList = cartList;
@@ -33,7 +35,7 @@ namespace Project.Controllers {
         }
 
         [HttpPost]
-        public IActionResult AddToCart(int ProductId, int? Quantity){
+        public IActionResult AddToCart(int ProductId, short? Quantity){
             if (HttpContext.Session.GetString("user") == null)
                 return Redirect("/login");
             
@@ -46,6 +48,7 @@ namespace Project.Controllers {
             ViewBag.CateList = categoryService.GetCategories();
             Product addedProduct = productService.GetProduct(ProductId);
             List<CartDTO> cartList;
+            //Check if the cartList is null or not
             if (HttpContext.Session.GetString("cartList")!= null)
                 cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
             else
@@ -67,6 +70,7 @@ namespace Project.Controllers {
                     break;
                 }
             }
+            //check if the product is existed in the cart or not
             if (!flag) { 
                 CartDTO cartDTO = new CartDTO();
                 cartDTO.ProductId = ProductId;
@@ -83,6 +87,7 @@ namespace Project.Controllers {
         [HttpGet]
         public IActionResult Delete(int var) {
             List<CartDTO> cartList;
+            //Check if the cartList is null or not
             if (HttpContext.Session.GetString("cartList") != null) {
                 cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
                 ViewBag.CartList = cartList;

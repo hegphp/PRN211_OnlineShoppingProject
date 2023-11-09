@@ -20,7 +20,7 @@ namespace Project.Models
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; } = null!;
-        public virtual DbSet<EmployeeTerritory> EmployeeTerritories { get; set; } = null!;
+        public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
@@ -135,22 +135,67 @@ namespace Project.Models
                 entity.Property(e => e.CustomerDesc).HasColumnType("ntext");
             });
 
-            modelBuilder.Entity<EmployeeTerritory>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
-                entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
-                    .IsClustered(false);
+                entity.HasIndex(e => e.LastName, "LastName");
+
+                entity.HasIndex(e => e.PostalCode, "PostalCode");
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
 
-                entity.Property(e => e.TerritoryId)
-                    .HasMaxLength(20)
-                    .HasColumnName("TerritoryID");
+                entity.Property(e => e.Address).HasMaxLength(60);
 
-                entity.HasOne(d => d.Territory)
-                    .WithMany(p => p.EmployeeTerritories)
-                    .HasForeignKey(d => d.TerritoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeTerritories_Territories");
+                entity.Property(e => e.BirthDate).HasColumnType("datetime");
+
+                entity.Property(e => e.City).HasMaxLength(15);
+
+                entity.Property(e => e.Country).HasMaxLength(15);
+
+                entity.Property(e => e.Extension).HasMaxLength(4);
+
+                entity.Property(e => e.FirstName).HasMaxLength(10);
+
+                entity.Property(e => e.HireDate).HasColumnType("datetime");
+
+                entity.Property(e => e.HomePhone).HasMaxLength(24);
+
+                entity.Property(e => e.LastName).HasMaxLength(20);
+
+                entity.Property(e => e.Notes).HasColumnType("ntext");
+
+                entity.Property(e => e.Photo).HasColumnType("image");
+
+                entity.Property(e => e.PhotoPath).HasMaxLength(255);
+
+                entity.Property(e => e.PostalCode).HasMaxLength(10);
+
+                entity.Property(e => e.Region).HasMaxLength(15);
+
+                entity.Property(e => e.Title).HasMaxLength(30);
+
+                entity.Property(e => e.TitleOfCourtesy).HasMaxLength(25);
+
+                entity.HasOne(d => d.ReportsToNavigation)
+                    .WithMany(p => p.InverseReportsToNavigation)
+                    .HasForeignKey(d => d.ReportsTo)
+                    .HasConstraintName("FK_Employees_Employees");
+
+                entity.HasMany(d => d.Territories)
+                    .WithMany(p => p.Employees)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "EmployeeTerritory",
+                        l => l.HasOne<Territory>().WithMany().HasForeignKey("TerritoryId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeeTerritories_Territories"),
+                        r => r.HasOne<Employee>().WithMany().HasForeignKey("EmployeeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeeTerritories_Employees"),
+                        j =>
+                        {
+                            j.HasKey("EmployeeId", "TerritoryId").IsClustered(false);
+
+                            j.ToTable("EmployeeTerritories");
+
+                            j.IndexerProperty<int>("EmployeeId").HasColumnName("EmployeeID");
+
+                            j.IndexerProperty<string>("TerritoryId").HasMaxLength(20).HasColumnName("TerritoryID");
+                        });
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -206,6 +251,11 @@ namespace Project.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Orders_Customers");
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_Orders_Employees");
 
                 entity.HasOne(d => d.ShipViaNavigation)
                     .WithMany(p => p.Orders)

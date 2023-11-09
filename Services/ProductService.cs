@@ -22,5 +22,12 @@
         public Product GetProduct(int id) {
             return _context.Products.FirstOrDefault(p => p.ProductId == id);
         }
+
+        public void DecreaseQuantityAfterPurchase(int productId,short quantity) {
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
+            product.UnitsInStock -= quantity;
+            _context.Update(product);
+            _context.SaveChanges();
+        }
     }
 }

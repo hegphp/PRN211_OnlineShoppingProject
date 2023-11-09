@@ -7,7 +7,7 @@ namespace Project.Models
     {
         public Territory()
         {
-            EmployeeTerritories = new HashSet<EmployeeTerritory>();
+            Employees = new HashSet<Employee>();
         }
 
         public string TerritoryId { get; set; } = null!;
@@ -15,6 +15,7 @@ namespace Project.Models
         public int RegionId { get; set; }
 
         public virtual Region Region { get; set; } = null!;
-        public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
+
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }
