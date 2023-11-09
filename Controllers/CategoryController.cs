@@ -10,10 +10,18 @@ namespace Project.Controllers {
         }
 
         [HttpGet]
-        public IActionResult GetProducts(int var) {
+        public IActionResult GetProducts(int var, int? page) {
+            var productList = categoryService.GetProductsByCateId(var);
+            int totalPage = (int)Math.Ceiling((decimal)productList.Count/12);
+            int pageNumber = page ?? 1;
+            if(page > totalPage) 
+                pageNumber = 1;
+
             ViewBag.CateList = categoryService.GetCategories();
-            ViewBag.ProductList = categoryService.GetProductsByCateId(var);
+            ViewBag.ProductList = productList.Skip((pageNumber - 1) * 12).Take(12).ToList();
             ViewBag.Category = categoryService.GetCategoryById(var);
+            ViewBag.TotalPage = totalPage;
+            ViewBag.PageNumber = pageNumber;
             return View(); 
         }
 

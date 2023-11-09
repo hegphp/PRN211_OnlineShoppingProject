@@ -113,6 +113,13 @@
                 }
             }
         }
+
+        <form action="/product/search" class="d-flex justify-content-center form-control align-items-start">
+            <input type="hidden" value="@ViewBag.ProductSearched" name="productName" />
+            <input type="number" name="page" min="1" max="@ViewBag.TotalPage" value="@ViewBag.pageNumber" />
+            <p>/ @ViewBag.TotalPage</p>
+            <input type="submit" />
+        </form>
     </div>
 
     <div style="margin-top: 10px">

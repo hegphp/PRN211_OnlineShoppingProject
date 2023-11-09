@@ -25,12 +25,23 @@ namespace Project.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Search(string productName) {
+        public IActionResult Search(string productName, int? page) {
             ViewBag.ProductSearched = productName;
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
                 ViewBag.User = HttpContext.Session.GetString("user");
+
+            var productList = productService.searchProducts(productName);
+
+            int pageNumber = page ?? 1;
+            int totalPage = (int)(Math.Ceiling((decimal)productList.Count / 12));
+            if (page > totalPage)
+                pageNumber = 1;
+            
             ViewBag.CateList = categoryService.GetCategories();
-            ViewBag.ProductList = productService.searchProducts(productName);
+            ViewBag.ProductList = productList.Skip((pageNumber - 1) * 12).Take(12).ToList();
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPage = totalPage;
+
             return View();
         }
 

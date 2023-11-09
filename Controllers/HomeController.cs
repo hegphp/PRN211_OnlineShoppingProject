@@ -20,6 +20,8 @@ namespace Project.Controllers {
                 pageNumber = 1;
 
             ViewBag.productList = productList.Skip((pageNumber - 1)*12).Take(12).ToList();
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPage = totalPage;
 
             return View();
         }
