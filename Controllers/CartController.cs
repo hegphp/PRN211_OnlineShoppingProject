@@ -19,6 +19,10 @@ namespace Project.Controllers {
                 cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
                 ViewBag.CartList = cartList;
             }
+
+            if (TempData["CartMessage"] != null) {
+                ViewBag.CartMessage = TempData["CartMessage"];
+            }
             return View();
         }
 
@@ -31,6 +35,7 @@ namespace Project.Controllers {
                 cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
                 ViewBag.CartList = cartList;
             }
+
             return View();
         }
 

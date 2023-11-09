@@ -106,12 +106,16 @@
 
                     <input type="submit" value="Tạo đơn hàng" />
                 </form>
-            }
-            else {
+            }else {
                 <br />
                 <h4 style="text-align:center">Giỏ hàng đang trống ...</h4>
             }
+
+            if (ViewBag.CartMessage != null) {
+                <span class="text-danger">@ViewBag.CartMessage</span>
+            }
         }
+        
     </div>
 
     <div style="margin-top: 10px">

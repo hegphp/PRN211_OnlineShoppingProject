@@ -26,6 +26,13 @@ namespace Project.Controllers {
             if (username == null) {
                 return Redirect("/login");
             }
+
+            //check if user chose a product or not
+            if (selectedProduct.Length == 0) { 
+                TempData["CartMessage"] = "You must select a product first!";
+                return Redirect("/cart/info");
+            }
+
             ViewBag.User = username;
             ViewBag.CateList = categoryService.GetCategories();
 
@@ -33,13 +40,10 @@ namespace Project.Controllers {
             List<CartDTO> cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
             //Get Selected Product
             foreach (var i in selectedProduct) {
-                var item = cartList.FirstOrDefault(c => c.ProductId == i);
-                selectedCartList.Add(item);
-                cartList.Remove(item);
+                selectedCartList.Add(cartList.FirstOrDefault(c => c.ProductId == i));
             }
 
             HttpContext.Session.SetString("selectedCartList", JsonConvert.SerializeObject(selectedCartList));
-            HttpContext.Session.SetString("cartList", JsonConvert.SerializeObject(cartList));
             ViewBag.ShipVia = shipperService.GetShippers();
             ViewBag.EmpList = employeeService.GetEmployees();
 
@@ -48,6 +52,7 @@ namespace Project.Controllers {
 
         [HttpPost]
         public IActionResult AddOrder(OrderDTO orderDTO) {
+            //check if the selected cartList is null or not
             if (HttpContext.Session.GetString("selectedCartList") == null)
                 return Redirect("/home");
 
@@ -68,7 +73,9 @@ namespace Project.Controllers {
             order.ShipCountry = orderDTO.ShipCountry;
 
             order = orderService.AddOrder(order);
-
+            
+            List<CartDTO> cartList = JsonConvert.DeserializeObject<List<CartDTO>>(HttpContext.Session.GetString("cartList"));
+            //Access every item in selectedCartList
             foreach (CartDTO cart in selectedCartList) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.ProductId = cart.ProductId;
@@ -80,7 +87,13 @@ namespace Project.Controllers {
                 productService.DecreaseQuantityAfterPurchase(cart.ProductId, cart.Quantity.Value);
 
                 orderDetailService.AddOrderDetail(orderDetail);
+
+                cartList.Remove(cartList.FirstOrDefault(c => c.ProductId == cart.ProductId));
             }
+            if (cartList.Count != 0)
+                HttpContext.Session.SetString("cartList", JsonConvert.SerializeObject(cartList));
+            else
+                HttpContext.Session.Remove("cartList");
             return Redirect("/order/list");
         }
 
@@ -105,7 +118,13 @@ namespace Project.Controllers {
                 return Redirect("/login");
             }
             ViewBag.CateList = categoryService.GetCategories();
-            ViewBag.OrderDetailList = orderDetailService.GetOrderDetails(var);
+            ViewBag.OrderDetailList = orderDetailService.GetOrderDetails(var).Select(od => new {
+                od.OrderId,
+                ProductName = productService.GetProductById(od.ProductId).ProductName,
+                od.UnitPrice,
+                od.Quantity,
+                od.Discount
+            });
             return View();
         }
     }

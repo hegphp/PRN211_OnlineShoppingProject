@@ -76,41 +76,31 @@
     </div>
     <div class="container">
         <!--content-->
-        <h1 style="text-align: center">Danh sách đơn hàng</h1>
+        <h1 style="text-align: center">Thông tin đơn hàng</h1>
         @{
-            if (ViewBag.OrderList != null) {
+            if (ViewBag.OrderDetailList != null) {
                 <table class="table">
                     <tr>
-                        <th>OrderDate</th>
-                        <th>RequiredDate</th>
-                        <th>ShippedDate</th>
-                        <th>ShipVia</th>
-                        <th>Freight</th>
-                        <th>ShipName</th>
-                        <th>ShipAddress</th>
-                        <th>ShipCity</th>
-                        <th>ShipCountry</th>
-                        <th></th>
+                        <th>OrderId</th>
+                        <th>ProductName</th>
+                        <th>UnitPrice</th>
+                        <th>Quantity</th>
+                        <th>Discount</th>
                     </tr>
-                    @foreach (var i in ViewBag.OrderList) {
+                    @foreach (var o in ViewBag.OrderDetailList) {
                         <tr>
-                            <td>@i.OrderDate</td>
-                            <td>@i.RequiredDate</td>
-                            <td>@i.ShippedDate</td>
-                            <td>@i.ShipVia</td>
-                            <td>@i.Freight</td>
-                            <td>@i.ShipName</td>
-                            <td>@i.ShipAddress</td>
-                            <td>@i.ShipCity</td>
-                            <td>@i.ShipCountry</td>
-                            <td><a href="/order/details/@i.OrderId">Details</a></td>
+                            <td>@o.OrderId</td>
+                            <td>@o.ProductName</td>
+                            <td>@o.UnitPrice</td>
+                            <td>@o.Quantity</td>
+                            <td>@o.Discount</td>
                         </tr>
                     }
                 </table>
             }
             else {
                 <br />
-                <h4 style="text-align:center">Danh sách đơn hàng đang trống...</h4>
+                <h4 style="text-align:center">Thông tin trống</h4>
             }
         }
     </div>
