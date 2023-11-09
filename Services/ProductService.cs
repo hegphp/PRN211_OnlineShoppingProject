@@ -18,5 +18,9 @@
         public List<Product> searchProducts(string searchedValue) {
             return _context.Products.Where(p => p.ProductName.Contains(searchedValue)).ToList();
         }
+
+        public Product GetProduct(int id) {
+            return _context.Products.FirstOrDefault(p => p.ProductId == id);
+        }
     }
 }

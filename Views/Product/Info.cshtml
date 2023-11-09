@@ -82,14 +82,16 @@
                 <img class="h-100 w-100" src='https://upload.wikimedia.org/wikipedia/commons/1/14/Product_sample_icon_picture.png'>
             </div>
             <div class='col-md-5'>
-                <form>
+                <form method="post" action="/cart/AddToCart">
+                    <input type="hidden" name="ProductId" value="@ViewBag.Product.ProductId" />
                     <h2>@ViewBag.Product.ProductName</h2>
                     <p>Giá: @ViewBag.Product.UnitPrice</p>
-                    <p>Số lượng: <input type='number' id='quantity' max='@(((Product)ViewBag.Product).UnitsInStock)'> (Số lượng tối đa: @ViewBag.Product.UnitsInStock)</p>
+                    <p>Số lượng: <input type='number' id='quantity' name="Quantity" max='@(((Product)ViewBag.Product).UnitsInStock)'> (Số lượng tối đa: @ViewBag.Product.UnitsInStock)</p>
                     <p id="errorMessage" style="display: none; color: red;">Giá trị không hợp lệ!</p>
                     <input class="btn btn-secondary" type='submit' value='Thêm vào giỏ hàng'>
-                    <input class="btn btn-secondary" type='submit' value='Đặt hàng'>
                 </form>
+                <span class="text-danger">@ViewBag.Message</span>
+                <span class="text-danger">@ViewBag.CurrentQuantityMessage</span>
             </div>
         </div>
     </div>

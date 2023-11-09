@@ -11,6 +11,12 @@ namespace Project.Controllers {
         }
 
         public IActionResult Info(int var) {
+            if (TempData["Message"]!=null)
+                ViewBag.Message = TempData["Message"];
+
+            if (TempData["CurrentQuantity"] != null)
+                ViewBag.CurrentQuantityMessage = TempData["CurrentQuantity"];
+            
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
                 ViewBag.User = HttpContext.Session.GetString("user");
             ViewBag.CateList = categoryService.GetCategories();

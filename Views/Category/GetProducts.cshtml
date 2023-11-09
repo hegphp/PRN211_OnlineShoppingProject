@@ -27,7 +27,7 @@
                 <button type="submit" class="input-group-append btn btn-outline-secondary">
                     Tìm kiếm
                 </button>
-            </form>
+            </form> 
             <div class="px-3 col-md-3 text-end d-flex justify-content-around">
                 @if (ViewBag.User == null) {
                     <!--login-->
@@ -78,6 +78,7 @@
         <form class="form-inline" action="/Category/GetProducts/@ViewBag.Category.CategoryId" method="post">
             <button type="submit" value="asc" name="order" class="btn btn-primary">Từ thấp lên cao</button>
             <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
+
         </form>
         @{
             var productList = (List<Product>)ViewBag.ProductList;
@@ -108,7 +109,7 @@
                 }
             }
         }
-
+    </div>
         <div style="margin-top: 10px">
             <br>
         </div>

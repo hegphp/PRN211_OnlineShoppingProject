@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Lenovo\Documents\GitHub\PRN211-OnlineShoppingProject\PRN211_OnlineShoppingProject
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Lenovo/Documents/GitHub/PRN211-OnlineShoppingProject/PRN211_OnlineShoppingProject/Views/Cart/Info.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Lenovo/Documents/GitHub/PRN211-OnlineShoppingProject/PRN211_OnlineShoppingProject/Views/Category/GetProducts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcR2V0UHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

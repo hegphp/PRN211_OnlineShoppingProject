@@ -6,7 +6,9 @@ namespace Project.Services {
 
         //check Customer valid
         public bool checkLoginValid(string username, string password) {
-            var account = _context.Customers.FirstOrDefault(c => c.CustomerId == username && c.Phone == password);
+            var customers = _context.Customers.ToList();
+            
+            var account = customers.FirstOrDefault(c => string.Equals(c.CustomerId, username, StringComparison.Ordinal) && string.Equals(c.Phone, password));
 
             return account != null;
         }

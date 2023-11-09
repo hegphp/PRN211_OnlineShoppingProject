@@ -22,7 +22,7 @@
             <a href="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                 <img src="Resource/hoadepcom-logos.jpeg" class="bi me-2" width="45" height="45">
             </a>
-            <form action="search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
+            <form action="/product/search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
                 <input type="text" name='productName' value="@ViewBag.ProductSearched" class="form-control" placeholder="Tìm kiếm sản phẩm tại đây">
                 <button type="submit" class="input-group-append btn btn-outline-secondary">
                     Tìm kiếm
@@ -71,24 +71,40 @@
             </ul>
         </nav>
     </div>
-
-    <div class="container mt-4">
-        <h1 class="h1 text-center mb-2 text-primary">Thông tin người dùng</h1>
+    <div class="container" style="margin: 35px">
         <br>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="container col-md-6">
-                @{
-                    Customer customer = ViewBag.UserInfo;
-                }
-                <h3>Tài khoản: @customer.CustomerId</h3>
-                <h3>Số điện thoại: @customer.Phone</h3>
-                <h3>Địa chỉ: @customer.Address @customer.City</h3>
-                <h3>Contact name: @customer.ContactName</h3>
-                <h3>Company name: @customer.CompanyName</h3>
-                <h3>Contact title: @customer.ContactTitle</h3>
-            </div>
-        </div>
+    </div>
+    <div class="container">
+        <!--content-->
+        <h1 style="text-align: center">Giỏ hàng</h1>
+        @{
+            if (ViewBag.CartList != null) {
+                <table class="table">
+                    <tr>
+                        <th>ProductName</th>
+                        <th>Quantity</th>
+                        <th>QuantityPerUnit</th>
+                        <th>UnitPrice</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var i in ViewBag.CartList) {
+                        <tr>
+                            <td>@i.ProductName</td>
+                            <td>@i.Quantity</td>
+                            <td>@i.QuantityPerUnit</td>
+                            <td>@i.UnitPrice</td>
+                            <td>@(i.UnitPrice * i.Quantity)</td>
+                            <td><a href="/cart/delete/@i.ProductId">Delete</a></td>
+                        </tr>
+                    }
+                </table>
+            }
+            else {
+                <br />
+                <h4 style="text-align:center">Giỏ hàng đang trống ...</h4>
+            }
+        }
     </div>
 
     <div style="margin-top: 10px">

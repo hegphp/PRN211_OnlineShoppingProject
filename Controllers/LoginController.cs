@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Project.Pages;
+using Project.DTO;
 using Project.Services;
 using System.Text.Json.Serialization;
 
@@ -18,9 +18,11 @@ namespace Project.Controllers {
 
         [HttpPost]
         public IActionResult Index(LoginDTO loginDTO) {
+            ViewBag.CateList = categoryService.GetCategories();
+            
             if (!ModelState.IsValid) {
-                ModelState.AddModelError("loginFailed", "Tài khoản hoặc mật khẩu không hợp lệ");
-                return Redirect("/login");
+                ModelState.AddModelError("loginFailed", "Account or password invalid!");
+                return View();
             }
 
             if (customerService.checkLoginValid(loginDTO.Account, loginDTO.Password)) {
@@ -30,9 +32,9 @@ namespace Project.Controllers {
                 return Redirect("/home");
             }
             else
-                ModelState.AddModelError("loginFailed", "Tài khoản hoặc mật khẩu không hợp lệ");
+                ModelState.AddModelError("loginFailed", "Account or password invalid!");
 
-            return Redirect("/login");
+            return View();
         }
 
         public IActionResult Logout() {
